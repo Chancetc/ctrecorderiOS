@@ -7,9 +7,10 @@
 //
 
 #import "CTRecorder.h"
-#import "AFNetworking.h"
-//#import "QQForwardEngine+ShareApp.h"
+#import "CTRecorderDef.h"
 
+//#import "AFNetworking.h"
+//#import "QQForwardEngine+ShareApp.h"
 @implementation CTRecordModel
 
 -(instancetype)init{
@@ -91,13 +92,15 @@ static CTRecorder *instace;
     
     NSDate *curDate = [NSDate date];
     dispatch_async(_recordQueue, ^{
+        NSString *simDes = [self simplifyIdentifier:description];
+        [self printCurrentPoint:identifier identifier:simDes date:curDate];
         CTRecordModel *model = [self modelByIdentifier:identifier isBegining:YES];
         model.startDate = curDate;
         model.lastDate = curDate;
-        model.lastDesp = description;
+        model.lastDesp = simDes;
         @synchronized(model) {
             [model.timeStamps addObject:model.startDate];
-            [model.orderKeysForTimeStamps addObject:description];
+            [model.orderKeysForTimeStamps addObject:simDes];
         }
     });
     
@@ -108,6 +111,8 @@ static CTRecorder *instace;
     NSDate *curDate = [NSDate date];
     
     dispatch_async(_recordQueue, ^{
+        NSString *simDes = [self simplifyIdentifier:description];
+        [self printCurrentPoint:identifier identifier:simDes date:curDate];
         //加一层保护：如果该记录已经结束记录状态则不再记录操作
         CTRecordModel *model = [self modelByIdentifier:identifier isBegining:NO];
         if (!model) {
@@ -116,13 +121,13 @@ static CTRecorder *instace;
         CGFloat timeInterval = ceil([curDate timeIntervalSinceDate:model.lastDate] * 100000)/100;
         
         @synchronized(model) {
-            NSString *key = [NSString stringWithFormat:@"%@~%@",model.lastDesp,description];
+            NSString *key = [NSString stringWithFormat:@"%@~%@",model.lastDesp,simDes];
             [model.timeGapDics setObject:@(timeInterval) forKey:key];
             [model.orderKeys addObject:key];
             model.lastDate = curDate;
             model.totalTimeGap  = ceil([model.lastDate timeIntervalSinceDate:model.startDate] * 100000)/100;
             [model.timeStamps addObject:model.lastDate];
-            [model.orderKeysForTimeStamps addObject:description];
+            [model.orderKeysForTimeStamps addObject:simDes];
         }
         
         @synchronized(_recordedDic) {
@@ -130,7 +135,7 @@ static CTRecorder *instace;
             [_orderedKeys addObject:key];
             [_recordedDic setObject:model forKey:key];
             [_recordingDic removeObjectForKey:identifier];
-            model.lastDesp = description;
+            model.lastDesp = simDes;
             if (_recordedDic.count >= 2) {
                 [instace getTheDescriptionOf:identifier];
                 
@@ -147,14 +152,16 @@ static CTRecorder *instace;
     
     NSDate *curDate = [NSDate date];
     dispatch_async(_recordQueue, ^{
+        NSString *simDes = [self simplifyIdentifier:description];
+        [self printCurrentPoint:identifier identifier:simDes date:curDate];
         //加一层保护：如果该记录已经结束记录状态则不再记录操作
         CTRecordModel *model = [self modelByIdentifier:identifier isBegining:NO];
         if (!model) {
             return ;
         }
-        NSString *newDes = description;
+        NSString *newDes = simDes;
         CGFloat timeInterval = ceil([curDate timeIntervalSinceDate:model.lastDate] * 100000)/100;
-        if (!description || description.length == 0) {
+        if (!simDes || simDes.length == 0) {
             newDes = [NSString stringWithFormat:@"OP_%@",@(timeInterval)];
         }
         
@@ -165,7 +172,7 @@ static CTRecorder *instace;
             model.lastDate = curDate;
             model.lastDesp = newDes;
             [model.timeStamps addObject:curDate];
-            [model.orderKeysForTimeStamps addObject:description];
+            [model.orderKeysForTimeStamps addObject:simDes];
         }
     });
 }
@@ -223,6 +230,11 @@ static CTRecorder *instace;
     return description;
 }
 
+-(void)printCurrentPoint:(NSString*)tag identifier:(NSString*)identifier date:(NSDate*)date{
+
+    NSLog(@"CTRecorder LOG -- time:%@ tag:%@ identifier:%@ ",@([date timeIntervalSince1970]),tag,identifier);
+}
+
 -(CTRecordModel *)modelByIdentifier:(NSString*)identifier isBegining:(BOOL)begining{
     
     CTRecordModel *model = nil;
@@ -243,15 +255,34 @@ static CTRecorder *instace;
 
 -(void)uploadData:(NSDictionary*)params{
 
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
-    [manager POST:@"http://120.25.65.98:12321/uploadRecords" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"＝ ＝ ＝ ＝%@",responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+//    [manager POST:@"http://120.25.65.98:12321/uploadRecords" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+//        
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        
+//    }];
+    
+//    [[QQHttpClient shareInstance] enqueueRequestSession:
+//                        [QQHttpClientSession
+//                                    sessionWithURL:@"http://120.25.65.98:12321/uploadRecords"
+//                                    bussiness:@[@(0)]
+//                                    resource:QQNetReqResTypeGetJson
+//                                    success:^(QQHttpClientSession *sess, id resObject) {
+//        
+//    }
+//                                    fail:^(QQHttpClientSession *sess, NSError *err) {
+//        
+//    }]];
+    
+//    [NSMutableURLRequest tencentRequest:@"http://120.25.65.98:12321/uploadRecords" httpMethod:@"POST" timeout:60 params:params httpHeads:nil cookie:nil];
+    
+    // 请求地址
+    NSString *urlString = @"http://120.25.65.98:12321/uploadRecords";
+    [CTRecorderHTTPClient CTRPostWith:urlString params:params completionHandler:^(NSURLResponse *response, id rspObj, NSError *connectionError) {
+        NSLog(@"CTRecorder upload complete%@",rspObj);
     }];
 }
 
@@ -311,4 +342,42 @@ static CTRecorder *instace;
     return arr;
 }
 
+-(NSString*)simplifyIdentifier:(NSString*)identifier{
+
+    NSMutableString *newIdentifier = [NSMutableString stringWithString:identifier];
+    NSDictionary *replaceDic = @{
+                                 @"QQ":@"",
+                                 @"VIP":@"",
+                                 @"Function":@"",
+                                 @"View":@"V",
+                                 @"Controller":@"C",
+                                 @"Web":@"W",
+                                 @"Download":@"DL",
+                                 @"Notification":@"noti",
+                                 @"Button":@"bt",
+                                 @"Label":@"Lbl",
+                                 @"NS":@"",
+                                 @"UI":@"",
+                                 @"Array":@"Arr",
+                                 @"Mutable":@"Mut",
+                                 @"table":@"t",
+                                 @"Database":@"db",
+                                 @"define":@"def",
+                                 @"manage":@"mg",
+                                 @"recent":@"rct",
+                                 @"Selector":@"SEL",
+                                 @"progress":@"prgs",
+                                 @"window":@"w"
+                                 };
+    NSArray *replaceKeys = replaceDic.allKeys;
+    for (NSString *key in replaceKeys) {
+        
+        NSString *lowerId = [newIdentifier lowercaseString];
+        NSString *lowerKey = [key lowercaseString];
+        if ([lowerId containsString:lowerKey]) {
+            [newIdentifier replaceOccurrencesOfString:key withString:replaceDic[key] options:NSCaseInsensitiveSearch range:NSMakeRange(0, newIdentifier.length)];
+        }
+    }
+    return newIdentifier;
+}
 @end

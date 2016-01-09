@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BD1AFDDB1C3FFE9600003934 /* CTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = BD1AFDDA1C3FFE9600003934 /* CTRecorder.m */; settings = {ASSET_TAGS = (); }; };
+		6381020F1C40E326008A06E9 /* CTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6381020B1C40E326008A06E9 /* CTRecorder.m */; };
+		638102101C40E326008A06E9 /* CTRecorderHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6381020E1C40E326008A06E9 /* CTRecorderHTTPClient.m */; };
 		BD3208671C3EB9010026E9A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208661C3EB9010026E9A4 /* main.m */; };
 		BD32086A1C3EB9010026E9A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208691C3EB9010026E9A4 /* AppDelegate.m */; };
 		BD32086D1C3EB9010026E9A4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32086C1C3EB9010026E9A4 /* ViewController.m */; };
@@ -16,12 +17,12 @@
 		BD3208751C3EB9010026E9A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD3208731C3EB9010026E9A4 /* LaunchScreen.storyboard */; };
 		BD3208801C3EB9010026E9A4 /* CTRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32087F1C3EB9010026E9A4 /* CTRecorderTests.m */; };
 		BD32088B1C3EB9010026E9A4 /* CTRecorderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32088A1C3EB9010026E9A4 /* CTRecorderUITests.m */; };
-		BD3208A61C3EBA100026E9A4 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32089A1C3EBA100026E9A4 /* AFHTTPSessionManager.m */; settings = {ASSET_TAGS = (); }; };
-		BD3208A71C3EBA100026E9A4 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32089D1C3EBA100026E9A4 /* AFNetworkReachabilityManager.m */; settings = {ASSET_TAGS = (); }; };
-		BD3208A81C3EBA100026E9A4 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32089F1C3EBA100026E9A4 /* AFSecurityPolicy.m */; settings = {ASSET_TAGS = (); }; };
-		BD3208A91C3EBA100026E9A4 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208A11C3EBA100026E9A4 /* AFURLRequestSerialization.m */; settings = {ASSET_TAGS = (); }; };
-		BD3208AA1C3EBA100026E9A4 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208A31C3EBA100026E9A4 /* AFURLResponseSerialization.m */; settings = {ASSET_TAGS = (); }; };
-		BD3208AB1C3EBA100026E9A4 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208A51C3EBA100026E9A4 /* AFURLSessionManager.m */; settings = {ASSET_TAGS = (); }; };
+		BD3208A61C3EBA100026E9A4 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32089A1C3EBA100026E9A4 /* AFHTTPSessionManager.m */; };
+		BD3208A71C3EBA100026E9A4 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32089D1C3EBA100026E9A4 /* AFNetworkReachabilityManager.m */; };
+		BD3208A81C3EBA100026E9A4 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BD32089F1C3EBA100026E9A4 /* AFSecurityPolicy.m */; };
+		BD3208A91C3EBA100026E9A4 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208A11C3EBA100026E9A4 /* AFURLRequestSerialization.m */; };
+		BD3208AA1C3EBA100026E9A4 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208A31C3EBA100026E9A4 /* AFURLResponseSerialization.m */; };
+		BD3208AB1C3EBA100026E9A4 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3208A51C3EBA100026E9A4 /* AFURLSessionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,9 +43,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BD1AFDD91C3FFE9600003934 /* CTRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTRecorder.h; sourceTree = "<group>"; };
-		BD1AFDDA1C3FFE9600003934 /* CTRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRecorder.m; sourceTree = "<group>"; };
-		BD1AFDDC1C40007A00003934 /* CTRecorderDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTRecorderDef.h; sourceTree = "<group>"; };
+		6381020A1C40E326008A06E9 /* CTRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTRecorder.h; path = CTRecorder/CTRecorder.h; sourceTree = "<group>"; };
+		6381020B1C40E326008A06E9 /* CTRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CTRecorder.m; path = CTRecorder/CTRecorder.m; sourceTree = "<group>"; };
+		6381020C1C40E326008A06E9 /* CTRecorderDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTRecorderDef.h; path = CTRecorder/CTRecorderDef.h; sourceTree = "<group>"; };
+		6381020D1C40E326008A06E9 /* CTRecorderHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTRecorderHTTPClient.h; path = CTRecorder/CTRecorderHTTPClient.h; sourceTree = "<group>"; };
+		6381020E1C40E326008A06E9 /* CTRecorderHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CTRecorderHTTPClient.m; path = CTRecorder/CTRecorderHTTPClient.m; sourceTree = "<group>"; };
 		BD3208621C3EB9010026E9A4 /* CTRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CTRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD3208661C3EB9010026E9A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BD3208681C3EB9010026E9A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -101,6 +104,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		638102091C40E312008A06E9 /* CTRecorderUtil */ = {
+			isa = PBXGroup;
+			children = (
+				6381020A1C40E326008A06E9 /* CTRecorder.h */,
+				6381020B1C40E326008A06E9 /* CTRecorder.m */,
+				6381020C1C40E326008A06E9 /* CTRecorderDef.h */,
+				6381020D1C40E326008A06E9 /* CTRecorderHTTPClient.h */,
+				6381020E1C40E326008A06E9 /* CTRecorderHTTPClient.m */,
+			);
+			name = CTRecorderUtil;
+			sourceTree = "<group>";
+		};
 		BD3208591C3EB9010026E9A4 = {
 			isa = PBXGroup;
 			children = (
@@ -124,9 +139,7 @@
 		BD3208641C3EB9010026E9A4 /* CTRecorder */ = {
 			isa = PBXGroup;
 			children = (
-				BD1AFDDC1C40007A00003934 /* CTRecorderDef.h */,
-				BD1AFDD91C3FFE9600003934 /* CTRecorder.h */,
-				BD1AFDDA1C3FFE9600003934 /* CTRecorder.m */,
+				638102091C40E312008A06E9 /* CTRecorderUtil */,
 				BD3208981C3EB9BE0026E9A4 /* AFNetworking */,
 				BD3208681C3EB9010026E9A4 /* AppDelegate.h */,
 				BD3208691C3EB9010026E9A4 /* AppDelegate.m */,
@@ -323,10 +336,11 @@
 				BD3208A71C3EBA100026E9A4 /* AFNetworkReachabilityManager.m in Sources */,
 				BD3208671C3EB9010026E9A4 /* main.m in Sources */,
 				BD3208A81C3EBA100026E9A4 /* AFSecurityPolicy.m in Sources */,
-				BD1AFDDB1C3FFE9600003934 /* CTRecorder.m in Sources */,
+				6381020F1C40E326008A06E9 /* CTRecorder.m in Sources */,
 				BD3208A91C3EBA100026E9A4 /* AFURLRequestSerialization.m in Sources */,
 				BD3208AA1C3EBA100026E9A4 /* AFURLResponseSerialization.m in Sources */,
 				BD3208A61C3EBA100026E9A4 /* AFHTTPSessionManager.m in Sources */,
+				638102101C40E326008A06E9 /* CTRecorderHTTPClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

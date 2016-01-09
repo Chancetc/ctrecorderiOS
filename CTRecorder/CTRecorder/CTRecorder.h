@@ -58,6 +58,8 @@
 
 +(instancetype)getInstance;
 
+@property (nonatomic, strong) NSString *userName;
+
 /**
  @brief 单条记录的开始
  
