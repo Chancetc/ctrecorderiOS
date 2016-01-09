@@ -70,16 +70,34 @@ static CTRecorderHTTPClient* instance;
     // 设置请求头信息-请求数据类型
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     
-    // 初始化一个操作队列
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     // 发送一个异步请求
-    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:
-     ^(NSURLResponse *response, NSData *data, NSError *error) {
-         // 解析成字符串数据
-         NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//         NSLog(@"%@", str);
-         handler(response,str,error);
-     }];
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
+        id rspObj = [CTRecorderHTTPClient DictionaryWithData:data];
+        handler(response,rspObj,error);
+    }];
+    [task resume];
 }
 
++(NSDictionary *)DictionaryWithJsonString:(NSString*)jsonStr{
+
+    if (!jsonStr || jsonStr.length == 0) {
+        return nil;
+    }
+    
+    NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+    return [CTRecorderHTTPClient DictionaryWithData:jsonData];
+}
+
++(NSDictionary *)DictionaryWithData:(NSData*)data{
+
+    if (!data) {
+        return nil;
+    }
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+    if (err) {
+        return nil;
+    }
+    return dic;
+}
 @end

@@ -316,7 +316,7 @@ static CTRecorder *instace;
         
         NSMutableDictionary *recordDic = [NSMutableDictionary new];
         recordDic[@"recordTag"] = model.identifier;
-        recordDic[@"recordDate"] = @(ceil([model.startDate timeIntervalSince1970] * 100000)/100);
+        recordDic[@"recordDate"] = [NSString stringWithFormat:@"%@",@(ceil([model.startDate timeIntervalSince1970] * 100000)/100)];
         recordDic[@"points"] = [self pointsFromRecodModel:model];
         [records addObject:recordDic];
     }
@@ -334,7 +334,7 @@ static CTRecorder *instace;
             NSDate *date = (NSDate*)model.timeStamps[i];
             CGFloat timestamp = ceil([date timeIntervalSince1970] * 100000)/100;
             
-            [arr addObject:@{@"timestamp":@(timestamp),
+            [arr addObject:@{@"timestamp":[NSString stringWithFormat:@"%@",@(timestamp)],
                              @"key":key,
                              @"index":@(i)}];
         }

@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "AFNetworking.h"
 #import "CTRecorderDef.h"
 #import "ViewController.h"
 
