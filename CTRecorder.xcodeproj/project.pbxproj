@@ -88,9 +88,9 @@
 		638102091C40E312008A06E9 /* CTRecorderUtil */ = {
 			isa = PBXGroup;
 			children = (
+				6381020C1C40E326008A06E9 /* CTRecorderDef.h */,
 				6381020A1C40E326008A06E9 /* CTRecorder.h */,
 				6381020B1C40E326008A06E9 /* CTRecorder.m */,
-				6381020C1C40E326008A06E9 /* CTRecorderDef.h */,
 				6381020D1C40E326008A06E9 /* CTRecorderHTTPClient.h */,
 				6381020E1C40E326008A06E9 /* CTRecorderHTTPClient.m */,
 			);

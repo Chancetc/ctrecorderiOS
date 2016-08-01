@@ -280,8 +280,8 @@ static CTRecorder *instace;
 //    [NSMutableURLRequest tencentRequest:@"http://120.25.65.98:12321/uploadRecords" httpMethod:@"POST" timeout:60 params:params httpHeads:nil cookie:nil];
     
     // 请求地址
-    NSString *urlString = @"http://120.25.65.98:12321/uploadRecords";
-    [CTRecorderHTTPClient CTRPostWith:urlString params:params completionHandler:^(NSURLResponse *response, id rspObj, NSError *connectionError) {
+//    NSString *urlString = @"http://127.0.0.1:12321/uploadRecords";
+    [CTRecorderHTTPClient CTRPostWith:UPLOAD_URL params:params completionHandler:^(NSURLResponse *response, id rspObj, NSError *connectionError) {
         NSLog(@"CTRecorder upload complete%@",rspObj);
     }];
 }
@@ -294,7 +294,11 @@ static CTRecorder *instace;
     CTRecordModel *anchorModel = nil;
     NSMutableDictionary *result = [NSMutableDictionary new];
     
-    result[@"userName"] = @"chanceguo";
+    NSString *userName = [CTRecorder getInstance].userName;
+    if (!userName) {
+        userName = @"CTRecorder";
+    }
+    result[@"userName"] = userName;
     NSMutableArray *records = [NSMutableArray new];
     for (NSInteger i = (copyKeys.count - 1); i >= 0; i--) {
         

@@ -13,6 +13,9 @@
 #import "CTRecorder.h"
 #import "CTRecorderHTTPClient.h"
 
+#define UPLOAD_URL @"http://119.29.199.118:12321/uploadRecords"
+//#define UPLOAD_URL @"http://127.0.0.1:12321/uploadRecords"
+
 #define __CTR_FILE__ [[NSString stringWithFormat:@"%s",__FILE__] lastPathComponent]
 
 #define INIT_CTRECORDER_WITH_NAME(USERNAME) [CTRecorder getInstance].userName = USERNAME;
