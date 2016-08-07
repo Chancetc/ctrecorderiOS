@@ -61,6 +61,14 @@
 @property (nonatomic, strong) NSString *userName;
 
 /**
+ @author Chanceguo
+ 
+ 上传数据的最小时间间隔
+ 默认为5s(此时该属性返回-1)
+ */
+@property (nonatomic, assign) double minUploadTimeInterval;
+
+/**
  @brief 单条记录的开始
  
  @param identifier 标识符

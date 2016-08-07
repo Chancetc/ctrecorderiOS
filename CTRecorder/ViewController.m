@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "CTRecorderDef.h"
 
-#define CURRENT_RECORD_TAG @"comic_readerOpen"
+#define CURRENT_RECORD_TAG @"QG_Open"
 
 @interface ViewController (){
 
@@ -31,7 +31,8 @@
     _testView1.userInteractionEnabled = YES;
     [self.view addSubview:_testView1];
     INIT_CTRECORDER_WITH_NAME(@"chance");
-
+    [CTRecorder getInstance].minUploadTimeInterval = 0.1;
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,16 +48,25 @@
         CTRecordAdvBegin(CURRENT_RECORD_TAG)
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        CTRecordAdv(CURRENT_RECORD_TAG,@"request1")
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    for (int i = 0; i<100; i++) {
+        NSDateFormatter *df = [NSDateFormatter new];
+    }
+        CTRecordAdv(CURRENT_RECORD_TAG,@"loadrequest")
+//    });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.211 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.211 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    for (int i = 0; i<200; i++) {
+        NSDateFormatter *df = [NSDateFormatter new];
+    }
         CTRecordAdv(CURRENT_RECORD_TAG,@"request2")
-    });
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.278 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.278 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    for (int i = 0; i<20; i++) {
+        NSDateFormatter *df = [NSDateFormatter new];
+    }
         CTRecordAdv(CURRENT_RECORD_TAG,@"UIiNIT")
-    });
+//    });
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        CTRecordAdv(@"newTag",@"wait5")
 //    });
@@ -67,9 +77,9 @@
 
     UITouch *touch = touches.allObjects[0];
     if (touch.view == _testView1) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             CTRecordAdvEnd(CURRENT_RECORD_TAG)
-        });
+//        });
         
     }
 }

@@ -59,6 +59,7 @@
     NSMutableDictionary *_recordedDic;
     NSMutableArray *_orderedKeys;
     dispatch_queue_t _recordQueue;
+    NSTimeInterval _lastUploadTimestamp;
 }
 
 @end
@@ -83,6 +84,7 @@ static CTRecorder *instace;
         _recordingDic = [NSMutableDictionary new];
         _orderedKeys = [NSMutableArray new];
         _recordQueue = dispatch_queue_create(@"COMIC_RECORDER".UTF8String, 0);
+        _minUploadTimeInterval = -1;
     }
     return self;
 }
@@ -136,7 +138,7 @@ static CTRecorder *instace;
             [_recordedDic setObject:model forKey:key];
             [_recordingDic removeObjectForKey:identifier];
             model.lastDesp = simDes;
-            if (_recordedDic.count >= 2) {
+            if ([self isNeedUploadRecordData]) {
                 [instace getTheDescriptionOf:identifier];
                 
                 //数据上报
@@ -146,6 +148,20 @@ static CTRecorder *instace;
             }
         }
     });
+}
+
+-(BOOL)isNeedUploadRecordData{
+
+    BOOL dataEnough = _recordedDic.count >= 2;
+    NSTimeInterval timeIntervalSince1970 = [[NSDate date] timeIntervalSince1970];
+    
+    //若未设置过最小时间间隔则直接使用默认值
+    double minInterval = CTR_DEFUALT_UPLOAD_TIMEINTERVAL;
+    if (self.minUploadTimeInterval > 0) {
+        minInterval = self.minUploadTimeInterval;
+    }
+    BOOL timeEnough = (fabs(_lastUploadTimestamp-timeIntervalSince1970) > minInterval);
+    return dataEnough && timeEnough;
 }
 
 -(void)record:(NSString *)identifier for:(NSString*)description{
@@ -283,6 +299,7 @@ static CTRecorder *instace;
 //    NSString *urlString = @"http://127.0.0.1:12321/uploadRecords";
     [CTRecorderHTTPClient CTRPostWith:UPLOAD_URL params:params completionHandler:^(NSURLResponse *response, id rspObj, NSError *connectionError) {
         NSLog(@"CTRecorder upload complete%@",rspObj);
+        _lastUploadTimestamp = [[NSDate date] timeIntervalSince1970];
     }];
 }
 
@@ -312,8 +329,8 @@ static CTRecorder *instace;
             ||!anchorModel.identifier
             ||![model.identifier isEqualToString:anchorModel.identifier]
             ||!model.orderKeys
-            || !anchorModel.orderKeys
-            || ![model.orderKeys.description isEqualToString:anchorModel.orderKeys.description]) {
+            ||!anchorModel.orderKeys
+            ||![model.orderKeys.description isEqualToString:anchorModel.orderKeys.description]) {
             
             continue ;
         }
