@@ -25,7 +25,7 @@
 }
 
 -(id)copyWithZone:(NSZone *)zone{
-
+    
     CTRecordModel *copyModel = [[CTRecordModel alloc] init];
     copyModel.identifier = [self.identifier mutableCopy];
     copyModel.startDate = [self.startDate copy];
@@ -108,7 +108,7 @@ static CTRecorder *instace;
     
 }
 
--(void)recordTheEnding:(NSString *)identifier for:(NSString *)description{
+-(void)recordTheEnding:(NSString *)identifier for:(NSString *)description forceUpload:(BOOL)force{
     
     NSDate *curDate = [NSDate date];
     
@@ -138,7 +138,7 @@ static CTRecorder *instace;
             [_recordedDic setObject:model forKey:key];
             [_recordingDic removeObjectForKey:identifier];
             model.lastDesp = simDes;
-            if ([self isNeedUploadRecordData]) {
+            if (force || [self isNeedUploadRecordData]) {
                 [instace getTheDescriptionOf:identifier];
                 
                 //数据上报
@@ -151,7 +151,7 @@ static CTRecorder *instace;
 }
 
 -(BOOL)isNeedUploadRecordData{
-
+    
     BOOL dataEnough = _recordedDic.count >= 2;
     NSTimeInterval timeIntervalSince1970 = [[NSDate date] timeIntervalSince1970];
     
@@ -247,7 +247,7 @@ static CTRecorder *instace;
 }
 
 -(void)printCurrentPoint:(NSString*)tag identifier:(NSString*)identifier date:(NSDate*)date{
-
+    
     NSLog(@"CTRecorder LOG -- time:%@ tag:%@ identifier:%@ ",@([date timeIntervalSince1970]),tag,identifier);
 }
 
@@ -270,33 +270,7 @@ static CTRecorder *instace;
 }
 
 -(void)uploadData:(NSDictionary*)params{
-
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
-//    [manager POST:@"http://120.25.65.98:12321/uploadRecords" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-//        
-//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//        
-//    }];
     
-//    [[QQHttpClient shareInstance] enqueueRequestSession:
-//                        [QQHttpClientSession
-//                                    sessionWithURL:@"http://120.25.65.98:12321/uploadRecords"
-//                                    bussiness:@[@(0)]
-//                                    resource:QQNetReqResTypeGetJson
-//                                    success:^(QQHttpClientSession *sess, id resObject) {
-//        
-//    }
-//                                    fail:^(QQHttpClientSession *sess, NSError *err) {
-//        
-//    }]];
-    
-//    [NSMutableURLRequest tencentRequest:@"http://120.25.65.98:12321/uploadRecords" httpMethod:@"POST" timeout:60 params:params httpHeads:nil cookie:nil];
-    
-    // 请求地址
-//    NSString *urlString = @"http://127.0.0.1:12321/uploadRecords";
     [CTRecorderHTTPClient CTRPostWith:UPLOAD_URL params:params completionHandler:^(NSURLResponse *response, id rspObj, NSError *connectionError) {
         NSLog(@"CTRecorder upload complete%@",rspObj);
         _lastUploadTimestamp = [[NSDate date] timeIntervalSince1970];
@@ -347,7 +321,7 @@ static CTRecorder *instace;
 }
 
 -(NSMutableArray*)pointsFromRecodModel:(CTRecordModel*)model{
-
+    
     NSMutableArray *arr = [NSMutableArray new];
     if (model) {
         for (int i=0; i<model.orderKeysForTimeStamps.count; i++) {
@@ -364,21 +338,21 @@ static CTRecorder *instace;
 }
 
 -(NSString*)simplifyIdentifier:(NSString*)identifier{
-
+    
     NSMutableString *newIdentifier = [NSMutableString stringWithString:identifier];
     NSDictionary *replaceDic = @{
                                  @"QQ":@"",
                                  @"VIP":@"",
                                  @"Function":@"",
                                  @"View":@"V",
-                                 @"Controller":@"C",
+                                 @"Controller":@"Con",
                                  @"Web":@"W",
-                                 @"Download":@"DL",
+                                 @"Download":@"Down",
                                  @"Notification":@"noti",
-                                 @"Button":@"bt",
+                                 @"Button":@"btn",
                                  @"Label":@"Lbl",
                                  @"NS":@"",
-                                 @"UI":@"",
+                                 @"UI":@"UI",
                                  @"Array":@"Arr",
                                  @"Mutable":@"Mut",
                                  @"table":@"t",
@@ -388,7 +362,7 @@ static CTRecorder *instace;
                                  @"recent":@"rct",
                                  @"Selector":@"SEL",
                                  @"progress":@"prgs",
-                                 @"window":@"w"
+                                 @"window":@"win"
                                  };
     NSArray *replaceKeys = replaceDic.allKeys;
     for (NSString *key in replaceKeys) {

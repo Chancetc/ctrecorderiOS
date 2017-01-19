@@ -34,7 +34,7 @@
 @property (nonatomic, assign) NSUInteger totalTimeGap;
 
 /**
- @brief 
+ @brief
  value:gap of times in millisecond
  key:description of the gap
  */
@@ -80,7 +80,7 @@
  
  @param identifier 标志性符
  */
--(void)recordTheEnding:(NSString*)identifier for:(NSString*)description;
+-(void)recordTheEnding:(NSString*)identifier for:(NSString*)description forceUpload:(BOOL)force;
 
 /**
  @brief 记录中间时间点
